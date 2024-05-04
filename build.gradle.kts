@@ -20,6 +20,6 @@ dependencies {
     implementation("org.mariadb.jdbc:mariadb-java-client:3.3.3")
 }
 
-tasks.test {
-    useJUnitPlatform()
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
 }

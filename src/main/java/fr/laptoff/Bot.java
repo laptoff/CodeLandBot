@@ -2,10 +2,12 @@ package fr.laptoff;
 
 import fr.laptoff.listeners.GuildJoinListener;
 import fr.laptoff.listeners.MessagesListener;
+import fr.laptoff.listeners.SlashCommandListener;
 import fr.laptoff.managers.Database;
 import fr.laptoff.managers.FileManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import java.io.File;
@@ -38,6 +40,11 @@ public class Bot {
 
         bot.addEventListener(new MessagesListener());
         bot.addEventListener(new GuildJoinListener());
+        bot.addEventListener(new SlashCommandListener());
+
+        bot.updateCommands().addCommands(
+                Commands.slash("menu", "Ouvre le menu de CodeLandBot.")
+        ).queue();
     }
 
     public static Database getDatabase(){
