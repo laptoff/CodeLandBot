@@ -1,5 +1,6 @@
 package fr.laptoff;
 
+import fr.laptoff.listeners.GuildJoinListener;
 import fr.laptoff.listeners.MessagesListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -18,5 +19,6 @@ public class Bot {
         final JDA bot = JDABuilder.createDefault(prop.getProperty("BOT_TOKEN")).enableIntents(GatewayIntent.MESSAGE_CONTENT).build();
 
         bot.addEventListener(new MessagesListener());
+        bot.addEventListener(new GuildJoinListener());
     }
 }
