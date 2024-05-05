@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Database {
 
@@ -42,6 +43,17 @@ public class Database {
     public void closeConnection() throws SQLException {
         if (this.co != null && !this.co.isClosed())
             this.co.close();
+    }
+
+    public void setup() throws SQLException {
+        //Table pour les tokens github.
+        try(Statement stmt = this.co.createStatement()){
+            stmt.execute("""
+                    CREATE TABLE IF NOT EXISTS github (
+                    user_id TEXT PRIMARY KEY,
+                    token TEXT NOT NULL);
+                    """);
+        }
     }
 
 }

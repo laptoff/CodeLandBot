@@ -36,7 +36,6 @@ public class SlashCommandListener extends ListenerAdapter {
             event.replyEmbeds(embed).addActionRow(
                             StringSelectMenu.create("menu-selector")
                                     .addOptions(SelectOption.of("Github", "github")
-                                            .withDefault(true)
                                             .withDescription("Gérez la connexion avec votre compte GitHub.")
                                             .withEmoji(Emoji.fromUnicode("U+1F517")))
                                     .build())
