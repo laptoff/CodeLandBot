@@ -13,14 +13,16 @@ public class StringSelectInteraction extends ListenerAdapter {
     public void onStringSelectInteraction(@NotNull StringSelectInteractionEvent event){
         if (event.getComponentId().equals("menu-selector")){
 
-            TextInput input = TextInput.create("github-token", "Token", TextInputStyle.PARAGRAPH)
-                    .setPlaceholder("GitHub Token...")
-                    .setRequiredRange(5, 1000)
-                    .build();
+            if (event.getValues().getFirst().equals("github")){
+                TextInput input = TextInput.create("github-token", "Token", TextInputStyle.PARAGRAPH)
+                        .setPlaceholder("GitHub Token...")
+                        .setRequiredRange(5, 1000)
+                        .build();
 
-            Modal modal = Modal.create("github-connexion", "Connexiopn GitHub").addActionRow(input).build();
+                Modal modal = Modal.create("github-connexion", "Connexion GitHub").addActionRow(input).build();
 
-            event.replyModal(modal).queue();
+                event.replyModal(modal).queue();
+            }
         }
     }
 

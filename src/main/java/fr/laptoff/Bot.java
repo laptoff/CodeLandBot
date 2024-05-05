@@ -14,7 +14,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.time.OffsetDateTime;
-import java.time.temporal.TemporalAccessor;
 import java.util.Properties;
 
 public class Bot {
