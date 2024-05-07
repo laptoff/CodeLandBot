@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -63,10 +64,39 @@ public class Bot {
     }
 
     public static MessageEmbed getErrorEmbed(String desc){
-        return new EmbedBuilder().setColor(Color.RED).setDescription(desc).setImage("https://i.ibb.co/xLkt4gT/klipartz-com.png").setFooter(OffsetDateTime.now().toString()).build();
+//        return new EmbedBuilder().setColor(Color.RED).setDescription(desc).setImage("https://i.ibb.co/xLkt4gT/klipartz-com.png").setFooter(OffsetDateTime.now().toString()).build();
+        return new MessageEmbed(
+                null,
+                desc,
+                null,
+                null,
+                OffsetDateTime.now(),
+                Color.RED.getRGB(),
+                new MessageEmbed.Thumbnail("https://i.ibb.co/xLkt4gT/klipartz-com.png", null, 20, 20),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
     }
 
     public static MessageEmbed getSuccessEmbed(String desc){
-        return new EmbedBuilder().setColor(Color.GREEN).setDescription(desc).setImage("https://i.ibb.co/mhC2d8W/pngwing-com.png").setFooter(OffsetDateTime.now().toString()).build();
+        return new MessageEmbed(
+                null,
+                desc,
+                null,
+                null,
+                OffsetDateTime.now(),
+                Color.GREEN.getRGB(),
+                new MessageEmbed.Thumbnail("https://i.ibb.co/mhC2d8W/pngwing-com.png", null, 20, 20),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+                );
     }
 }
