@@ -29,7 +29,7 @@ public class ModalInteraction extends ListenerAdapter {
                 e.printStackTrace();
             }
 
-            try(PreparedStatement stmt = database.getConnection().prepareStatement("INSERT INTO github (user_id, token) VALUES (?, ?);")){
+            try(PreparedStatement stmt = database.getConnection().prepareStatement("INSERT INTO bot_user (user_id, token) VALUES (?, ?);")){
                 stmt.setString(1, event.getUser().getId());
                 stmt.setString(2, token);
                 stmt.execute();

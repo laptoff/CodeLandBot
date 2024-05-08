@@ -49,9 +49,10 @@ public class Database {
         //Table pour les tokens github.
         try(Statement stmt = this.co.createStatement()){
             stmt.execute("""
-                    CREATE TABLE IF NOT EXISTS github (
-                    user_id TEXT PRIMARY KEY,
-                    token TEXT NOT NULL);
+                    CREATE TABLE IF NOT EXISTS bot_user (
+                    user_id INT PRIMARY KEY,
+                    token TEXT NOT NULL,
+                    xp INT DEFAULT 0);
                     """);
         }
     }

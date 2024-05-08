@@ -17,7 +17,7 @@ public class StringSelectInteraction extends ListenerAdapter {
     @Override
     public void onStringSelectInteraction(@NotNull StringSelectInteractionEvent event){
 
-        //GitHub - CodeLand
+        //GitHub Menu - CodeLand
         if (event.getComponentId().equals("menu-selector")){
             if (event.getValues().getFirst().equals("github")){
 
