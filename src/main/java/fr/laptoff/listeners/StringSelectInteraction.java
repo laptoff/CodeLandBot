@@ -46,13 +46,15 @@ public class StringSelectInteraction extends ListenerAdapter {
                                         .withDescription("Informations sur votre compte GitHub.")
                                         .withEmoji(Emoji.fromUnicode("U+1F466")))
                                 .build()
-                ).queue();
-
+                ).setEphemeral(true).queue();
+                return;
             }
         }
 
         //Connexion GitHub.
         if (event.getComponentId().equals("github-selector")){
+
+            System.out.println(event.getValues().getFirst());
 
             if (event.getValues().getFirst().equals("connexion")){
                 TextInput input = TextInput.create("github-token", "Token", TextInputStyle.PARAGRAPH)
@@ -63,42 +65,51 @@ public class StringSelectInteraction extends ListenerAdapter {
                 Modal modal = Modal.create("github-connexion", "Connexion GitHub").addActionRow(input).build();
 
                 event.replyModal(modal).queue();
+                return;
             } else if (event.getValues().getFirst().equals("deconnexion")) {
                 try {
-                    if (BotUser.isExist(event.getUser().getId())) {
+                    if ((BotUser.getBotUser(event.getUser().getId()).getGithub() != null) && !(BotUser.getBotUser(event.getUser().getId()).getGithub().equals("none"))) {
                         BotUser user = BotUser.getBotUser(event.getUser().getId());
-                        user.setGithub(null);
-                        event.replyEmbeds(Bot.getSuccessEmbed("Vous avez bien été déconnecté de votre compte GitHub !"));
+                        user.setGithub("none");
+                        event.replyEmbeds(Bot.getSuccessEmbed("Vous avez bien été déconnecté de votre compte GitHub !")).queue();
+                        return;
                     } else {
-                        event.replyEmbeds(Bot.getErrorEmbed("Vous n'êtes pas connecté à GitHub."));
+                        event.replyEmbeds(Bot.getErrorEmbed("Vous n'êtes pas connecté à GitHub.")).queue();
+                        return;
                     }
                 } catch (SQLException e) {
-                    event.replyEmbeds(Bot.getErrorEmbed("Pardon mais nous avons eu un problème lors de l'interaction avec notre base de donnée... Veuillez contacter un développeur !"));
+                    event.replyEmbeds(Bot.getErrorEmbed("Pardon mais nous avons eu un problème lors de l'interaction avec notre base de donnée... Veuillez contacter un développeur !")).queue();
+                    return;
                 }
 
             } else if(event.getValues().getFirst().equals("infos")){
-                MessageEmbed embed = null;
                 try {
                     BotUser user = BotUser.getBotUser(event.getUser().getId());
-                    if (user.getGithub() == null){
+
+                    MessageEmbed embed = new EmbedBuilder()
+                        .setTitle("Informations sur votre compte GitHub")
+                        .setDescription("Vous n'êtes pas connecté à GitHub.")
+                        .setFooter(event.getUser().getName())
+                        .build();
+
+                    if (user.isExist() && !user.getGithub().equals("none") && user.getGithub() != null){
+
                         embed = new EmbedBuilder()
-                                .setTitle("Informations sur votre compte GitHub")
-                                .setDescription("Vous n'êtes pas connecté à GitHub.")
-                                .setFooter(event.getUser().getName())
-                                .build();
-                    } else {
-                        embed = new EmbedBuilder()
-                                .setTitle("Informations sur votre compte GitHub")
-                                .addField("Token", user.getGithub(), false)
-                                .build();
+                            .setTitle("Informations sur votre compte GitHub")
+                            .addField("Token", user.getGithub(), false)
+                            .setFooter(event.getUser().getName())
+                            .build();
                     }
+
+                    event.replyEmbeds(embed).setEphemeral(true).queue();
+                    return;
+
                 } catch (SQLException e) {
                     event.replyEmbeds(Bot.getErrorEmbed("Pardon mais nous avons eu un problème lors de l'interaction avec notre base de donnée... Veuillez contacter un développeur !"));
+                    return;
                 }
 
-                
-                event.replyEmbeds(embed).setEphemeral(true).queue();
-                }
+            }
         }
     }
 

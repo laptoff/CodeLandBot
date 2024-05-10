@@ -36,6 +36,12 @@ public class Database {
     }
 
     public void connection() throws SQLException {
+
+        if (this.Path == "jdbc:sqlite:src/main/resources/Data/bot.db") {
+            this.co = DriverManager.getConnection(this.Path);
+            return;
+        }
+
         this.co = DriverManager.getConnection(this.Path, this.User, this.Password);
     }
 
@@ -50,8 +56,8 @@ public class Database {
             stmt.execute("""
                     CREATE TABLE IF NOT EXISTS bot_user (
                     user_id TEXT PRIMARY KEY,
-                    token TEXT NOT NULL,
-                    xp INT DEFAULT 0);
+                    token TEXT,
+                    xp INTEGER DEFAULT 0);
                     """);
         }
     }

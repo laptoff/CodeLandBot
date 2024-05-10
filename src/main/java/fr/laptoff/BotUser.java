@@ -25,15 +25,19 @@ public class BotUser {
     }
 
     public String getGithub() throws SQLException {
-        try (PreparedStatement stmt = database.getConnection().prepareStatement("SELECT token FROM bot_user WHERE id = ?;")) {
+        try (PreparedStatement stmt = database.getConnection().prepareStatement("SELECT token FROM bot_user WHERE user_id = ?;")) {
             stmt.setString(1, this.Id);
-            this.Github = stmt.executeQuery().getString("token");
+
+            ResultSet result = stmt.executeQuery();
+            result.next();
+
+            this.Github = result.getString("token");
             return this.Github;
         }
     }
 
     public int getXp() throws SQLException {
-        try (PreparedStatement stmt = database.getConnection().prepareStatement("SELECT xp FROM bot_user WHERE id = ?;")) {
+        try (PreparedStatement stmt = database.getConnection().prepareStatement("SELECT xp FROM bot_user WHERE user_id = ?;")) {
             stmt.setString(1, this.Id);
             this.Xp = stmt.executeQuery().getInt("xp");
             return this.Xp;
@@ -41,7 +45,7 @@ public class BotUser {
     }
 
     public void setGithub(String token) throws SQLException {
-        try(PreparedStatement stmt = database.getConnection().prepareStatement("UPDATE bot_user SET token = ? WHERE id = ?;")){
+        try(PreparedStatement stmt = database.getConnection().prepareStatement("UPDATE bot_user SET token = ? WHERE user_id = ?;")){
             stmt.setString(1, token);
             stmt.setString(2, this.Id);
             stmt.execute();
@@ -50,7 +54,7 @@ public class BotUser {
     }
 
     public void setXp(int xp) throws SQLException {
-        try(PreparedStatement stmt = database.getConnection().prepareStatement("UPDATE bot_user SET xp = ? WHERE id = ?;")){
+        try(PreparedStatement stmt = database.getConnection().prepareStatement("UPDATE bot_user SET xp = ? WHERE user_id = ?;")){
             stmt.setInt(1, xp);
             stmt.setString(2, this.Id);
             stmt.execute();
@@ -59,7 +63,7 @@ public class BotUser {
     }
 
     public boolean isExist() throws SQLException {
-        try(PreparedStatement stmt = database.getConnection().prepareStatement("SELECT token FROM bot_user WHERE user_id = ?;")){
+        try(PreparedStatement stmt = database.getConnection().prepareStatement("SELECT user_id FROM bot_user WHERE user_id = ?;")){
             stmt.setString(1, this.Id);
 
             return stmt.executeQuery().next();
@@ -68,7 +72,7 @@ public class BotUser {
 
     public void register() throws SQLException {
         if (!isExist()){
-            try(PreparedStatement stmt = database.getConnection().prepareStatement("INSERT INTO bot_user (user-id, token, xp) VALUES (?, ?, ?);")){
+            try(PreparedStatement stmt = database.getConnection().prepareStatement("INSERT INTO bot_user (user_id, token, xp) VALUES (?, ?, ?);")){
                 stmt.setString(1, this.Id);
                 stmt.setString(2, this.Github);
                 stmt.setInt(3, this.Xp);
@@ -79,7 +83,7 @@ public class BotUser {
 
     public void delete() throws SQLException {
         if (isExist()){
-            try(PreparedStatement stmt = database.getConnection().prepareStatement("DELETE FROM bot_user WHERE ID = ?;")){
+            try(PreparedStatement stmt = database.getConnection().prepareStatement("DELETE FROM bot_user WHERE user_id = ?;")){
                 stmt.setString(1, this.Id);
 
                 stmt.execute();
@@ -88,7 +92,7 @@ public class BotUser {
     }
 
     public static boolean isExist(String id) throws SQLException {
-        try(PreparedStatement stmt = database.getConnection().prepareStatement("SELECT token FROM bot_user WHERE user_id = ?;")){
+        try(PreparedStatement stmt = database.getConnection().prepareStatement("SELECT user_id FROM bot_user WHERE user_id = ?;")){
             stmt.setString(1, id);
 
             return stmt.executeQuery().next();

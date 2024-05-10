@@ -23,7 +23,7 @@ public class ModalInteraction extends ListenerAdapter {
                 github.checkApiUrlValidity();
             } catch (IOException e) {
                 event.replyEmbeds(Bot.getErrorEmbed("**Il y a eu une erreur suite à la verification de votre token... Si vous êtes sûr de vous, veuillez contacter un développeur.**")).setEphemeral(true).queue();
-                e.printStackTrace();
+                return;
             }
 
             BotUser user = new BotUser(event.getUser().getId(), token, 0);
@@ -35,10 +35,13 @@ public class ModalInteraction extends ListenerAdapter {
                     user.register();
                 }
             } catch(SQLException e){
-                event.replyEmbeds(Bot.getErrorEmbed("Une erreur est survenus lors de l'interaction avec notre base de donnée... Veuillez contacter un développeur !")).setEphemeral(true).queue();
+                event.replyEmbeds(Bot.getErrorEmbed("Une erreur est survenus lors de l'interaction avec notre base de donnée... Veuillez contacter un développeur ! Code d'erreur: 1")).setEphemeral(true).queue();
+                System.out.println(e);
+                return;
             }
             
             event.replyEmbeds(Bot.getSuccessEmbed("La connexion de votre compte GitHub avec CodeLandBot est un succès !")).queue();
+            return;
 
         }
     }
