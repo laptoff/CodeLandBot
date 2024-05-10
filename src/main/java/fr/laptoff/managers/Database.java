@@ -1,6 +1,5 @@
 package fr.laptoff.managers;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -50,7 +49,7 @@ public class Database {
         try(Statement stmt = this.co.createStatement()){
             stmt.execute("""
                     CREATE TABLE IF NOT EXISTS bot_user (
-                    user_id INT PRIMARY KEY,
+                    user_id TEXT PRIMARY KEY,
                     token TEXT NOT NULL,
                     xp INT DEFAULT 0);
                     """);
