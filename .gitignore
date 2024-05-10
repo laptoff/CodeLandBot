@@ -40,4 +40,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-.idx/dev.nix
+
+### IDX Project ###
+.idx/
