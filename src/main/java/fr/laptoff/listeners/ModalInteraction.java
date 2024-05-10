@@ -26,7 +26,7 @@ public class ModalInteraction extends ListenerAdapter {
                 e.printStackTrace();
             }
 
-            BotUser user = new BotUser(Integer.parseInt(event.getUser().getId()), token, 0);
+            BotUser user = new BotUser(event.getUser().getId(), token, 0);
 
             try{
                 if(user.isExist()){

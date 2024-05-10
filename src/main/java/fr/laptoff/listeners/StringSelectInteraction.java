@@ -61,15 +61,13 @@ public class StringSelectInteraction extends ListenerAdapter {
                 event.replyModal(modal).queue();
             } else if (event.getValues().getFirst().equals("deconnexion")) {
                 try {
-                    if (BotUser.isExist(Integer.parseInt(event.getUser().getId()))) {
-                        BotUser user = BotUser.getBotUser(Integer.parseInt(event.getUser().getId()));
+                    if (BotUser.isExist(event.getUser().getId())) {
+                        BotUser user = BotUser.getBotUser(event.getUser().getId());
                         user.setGithub(null);
                         event.replyEmbeds(Bot.getSuccessEmbed("Vous avez bien été déconnecté de votre compte GitHub !"));
                     } else {
                         event.replyEmbeds(Bot.getErrorEmbed("Vous n'êtes pas connecté à GitHub."));
                     }
-                } catch (NumberFormatException e) {
-                    event.replyEmbeds(Bot.getErrorEmbed("Pardon mais nous avons eu une erreur lors de l'interpretation de votre identifiant... Veuillez contactez un développeur !"));
                 } catch (SQLException e) {
                     event.replyEmbeds(Bot.getErrorEmbed("Pardon mais nous avons eu un problème lors de l'interaction avec notre base de donnée... Veuillez contacter un développeur !"));
                 }
