@@ -32,13 +32,16 @@ public class StringSelectInteraction extends ListenerAdapter {
                                 .addOptions(SelectOption.of("Connexion", "connexion")
                                         .withDescription("Connectez votre compte GitHub à CodeLand.")
                                         .withEmoji(Emoji.fromUnicode("U+1F517")))
+                                .addOptions(SelectOption.of("Déconnexion", "deconnexion")
+                                        .withDescription("Déconnectez votre compte GitHub de CodeLand.")
+                                        .withEmoji(Emoji.fromUnicode("U+1F516")))
                                 .build()
                 ).queue();
 
             }
         }
 
-        //Modal Connexion GitHub.
+        //Connexion GitHub.
         if (event.getComponentId().equals("github-selector")){
 
             if (event.getValues().getFirst().equals("connexion")){
@@ -50,6 +53,8 @@ public class StringSelectInteraction extends ListenerAdapter {
                 Modal modal = Modal.create("github-connexion", "Connexion GitHub").addActionRow(input).build();
 
                 event.replyModal(modal).queue();
+            } else if (event.getValues().getFirst().equals("deconnexion")) {
+                //Système de déconnexion.
             }
         }
     }
