@@ -4,6 +4,7 @@ import fr.laptoff.managers.Database;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BotUser {
@@ -83,6 +84,30 @@ public class BotUser {
 
                 stmt.execute();
             }
+        }
+    }
+
+    public static boolean isExist(int id) throws SQLException {
+        try(PreparedStatement stmt = database.getConnection().prepareStatement("SELECT token FROM bot_user WHERE user_id = ?;")){
+            stmt.setInt(1, id);
+
+            return stmt.executeQuery().next();
+        }
+    }
+
+    public static BotUser getBotUser(int id) throws SQLException {
+
+        if (!isExist(id)) {
+            return null;
+        }
+
+        try(PreparedStatement stmt = database.getConnection().prepareStatement("SELECT * FROM bot_user WHERE user_id = ?;")){
+            stmt.setInt(1, id);
+
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+
+            return new BotUser(rs.getInt("user_id"), rs.getString("token"), rs.getInt("xp"));
         }
     }
 
