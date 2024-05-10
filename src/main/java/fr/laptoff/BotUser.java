@@ -96,11 +96,6 @@ public class BotUser {
     }
 
     public static BotUser getBotUser(int id) throws SQLException {
-
-        if (!isExist(id)) {
-            return null;
-        }
-
         try(PreparedStatement stmt = database.getConnection().prepareStatement("SELECT * FROM bot_user WHERE user_id = ?;")){
             stmt.setInt(1, id);
 

@@ -10,7 +10,13 @@ import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import net.dv8tion.jda.api.interactions.modals.Modal;
+
+import java.sql.SQLException;
+
 import org.jetbrains.annotations.NotNull;
+
+import fr.laptoff.Bot;
+import fr.laptoff.BotUser;
 
 public class StringSelectInteraction extends ListenerAdapter {
 
@@ -54,7 +60,19 @@ public class StringSelectInteraction extends ListenerAdapter {
 
                 event.replyModal(modal).queue();
             } else if (event.getValues().getFirst().equals("deconnexion")) {
-                //Système de déconnexion.
+                try {
+                    if (BotUser.isExist(Integer.parseInt(event.getUser().getId()))) {
+                        BotUser user = BotUser.getBotUser(Integer.parseInt(event.getUser().getId()));
+                        user.setGithub(null);
+                        event.replyEmbeds(Bot.getSuccessEmbed("Vous avez bien été déconnecté de votre compte GitHub !"));
+                    } else {
+                        event.replyEmbeds(Bot.getErrorEmbed("Vous n'êtes pas connecté à GitHub."));
+                    }
+                } catch (NumberFormatException e) {
+                    event.replyEmbeds(Bot.getErrorEmbed("Pardon mais nous avons eu une erreur lors de l'interpretation de votre identifiant... Veuillez contactez un développeur !"));
+                } catch (SQLException e) {
+                    event.replyEmbeds(Bot.getErrorEmbed("Pardon mais nous avons eu un problème lors de l'interaction avec notre base de donnée... Veuillez contacter un développeur !"));
+                }
             }
         }
     }
